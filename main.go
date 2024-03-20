@@ -116,7 +116,8 @@ func main() {
 		if idx >= *n {
 			break
 		}
-		url := strings.TrimPrefix(peer.Url, "mconn://")
+
+		url := fmt.Sprintf("%s@%s", peer.NodeInfo.Id, peer.Url)
 		fmt.Println("#", idx+1, " ", url, " speed: ", peer.Speed)
 		selectedPeers = append(selectedPeers, url)
 	}
@@ -127,7 +128,6 @@ func main() {
 }
 
 func checkPeerSpeed(url, remoteIp string) (time.Duration, error) {
-
 	startTime := time.Now()
 	conn, err := net.DialTimeout("tcp", url, 3*time.Second)
 	if err != nil {
